@@ -1,6 +1,6 @@
 # SSLCommerz Payment for Laravel
 
-[![Packagist Version](https://img.shields.io/packagist/v/rayhan-bapari/sslcommerz-payment.svg)](https://packagist.org/packages/rayhan-bapari/sslcommerz-payment)
+[![Packagist Version](https://img.shields.io/packagist/v/rayhan-bapari/sslcommerz.svg)](https://packagist.org/packages/rayhan-bapari/sslcommerz)
 [![PHP Version](https://img.shields.io/badge/PHP-8.1%20–%208.5-blue.svg)](https://php.net)
 [![Laravel](https://img.shields.io/badge/Laravel-9%20–%2012-red.svg)](https://laravel.com)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
@@ -8,6 +8,7 @@
 A production-ready Laravel package for **SSLCommerz** payment gateway — the most popular payment aggregator in Bangladesh.
 
 **Features:**
+
 - ✅ Hosted & Checkout (popup/embed) payment modes
 - ✅ IPN (Instant Payment Notification) handler with MD5 hash verification
 - ✅ Order validation via SSLCommerz server-to-server API
@@ -23,19 +24,19 @@ A production-ready Laravel package for **SSLCommerz** payment gateway — the mo
 
 ## Requirements
 
-| Dependency | Version |
-|---|---|
-| PHP | ^8.1 |
-| Laravel | ^9.0 \| ^10.0 \| ^11.0 \| ^12.0 |
-| ext-curl | * |
-| ext-json | * |
+| Dependency | Version                         |
+| ---------- | ------------------------------- |
+| PHP        | ^8.1                            |
+| Laravel    | ^9.0 \| ^10.0 \| ^11.0 \| ^12.0 |
+| ext-curl   | \*                              |
+| ext-json   | \*                              |
 
 ---
 
 ## Installation
 
 ```bash
-composer require rayhan-bapari/sslcommerz-payment
+composer require rayhan-bapari/sslcommerz
 ```
 
 ### Publish config & migrations
@@ -293,31 +294,32 @@ $status = Sslcommerz::refundStatus($result['refund_ref_id']);
 For embedded checkout, set `SSLCZ_DISPLAY_TYPE=checkout` and add the SSLCommerz embed script to your blade template:
 
 ```html
-<button id="sslczPayBtn"
-    postdata=""
-    endpoint="/sslcommerz/pay-via-ajax">
-    Pay Now
-</button>
+<button id="sslczPayBtn" postdata="" endpoint="/sslcommerz/pay-via-ajax">Pay Now</button>
 
 <script>
-    var obj = {};
-    obj.cus_name  = '{{ auth()->user()->name }}';
-    obj.cus_email = '{{ auth()->user()->email }}';
-    obj.amount    = '500';
-    $('#sslczPayBtn').prop('postdata', obj);
+  var obj = {};
+  obj.cus_name = '{{ auth()->user()->name }}';
+  obj.cus_email = '{{ auth()->user()->email }}';
+  obj.amount = '500';
+  $('#sslczPayBtn').prop('postdata', obj);
 </script>
 
 {{-- Sandbox --}}
 <script>
-    (function(w, d) {
-        var s = d.createElement('script');
-        s.src = 'https://sandbox.sslcommerz.com/embed.min.js?' + Math.random().toString(36).substring(7);
-        d.getElementsByTagName('script')[0].parentNode.insertBefore(s, d.getElementsByTagName('script')[0]);
-    })(window, document);
+  (function (w, d) {
+    var s = d.createElement('script');
+    s.src =
+      'https://sandbox.sslcommerz.com/embed.min.js?' + Math.random().toString(36).substring(7);
+    d.getElementsByTagName('script')[0].parentNode.insertBefore(
+      s,
+      d.getElementsByTagName('script')[0]
+    );
+  })(window, document);
 </script>
 ```
 
 For live, replace the sandbox embed URL with:
+
 ```
 https://seamless-epay.sslcommerz.com/embed.min.js
 ```
@@ -326,8 +328,8 @@ https://seamless-epay.sslcommerz.com/embed.min.js
 
 ## Database Tables
 
-| Table | Purpose |
-|---|---|
+| Table            | Purpose                        |
+| ---------------- | ------------------------------ |
 | `sslcz_ipn_logs` | Raw + parsed IPN POST payloads |
 
 ---
@@ -358,20 +360,22 @@ Set `SSLCZ_SANDBOX=true` and use your sandbox `store_id` and `store_password`.
 
 ## Transaction Status Values
 
-| Status | Meaning |
-|---|---|
-| `VALID` | Transaction is valid — fulfill immediately |
-| `VALIDATED` | Already validated once — still safe |
-| `INVALID_TRANSACTION` | Something is wrong |
-| `FAILED` | Payment failed at gateway |
-| `CANCELLED` | Customer cancelled |
-| `UNATTEMPTED` | Customer did not attempt |
-| `EXPIRED` | Session expired |
+| Status                | Meaning                                    |
+| --------------------- | ------------------------------------------ |
+| `VALID`               | Transaction is valid — fulfill immediately |
+| `VALIDATED`           | Already validated once — still safe        |
+| `INVALID_TRANSACTION` | Something is wrong                         |
+| `FAILED`              | Payment failed at gateway                  |
+| `CANCELLED`           | Customer cancelled                         |
+| `UNATTEMPTED`         | Customer did not attempt                   |
+| `EXPIRED`             | Session expired                            |
 
 ---
 
 ## License
 
 MIT © [Rayhan Bapari](https://github.com/rayhan-bapari)
+
 # sslcommerz
+
 # sslcommerz

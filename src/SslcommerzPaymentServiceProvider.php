@@ -37,7 +37,7 @@ class SslcommerzPaymentServiceProvider extends ServiceProvider
         $this->app->bind(SslcommerzPaymentInterface::class, SslcommerzPaymentService::class);
 
         // Singleton payment service
-        $this->app->singleton('sslcommerz-payment', fn ($app) => $app->make(SslcommerzPaymentService::class));
+        $this->app->singleton('sslcommerz', fn($app) => $app->make(SslcommerzPaymentService::class));
 
         // Singleton IPN service
         $this->app->singleton(SslcommerzIpnService::class);
@@ -46,7 +46,7 @@ class SslcommerzPaymentServiceProvider extends ServiceProvider
     public function provides(): array
     {
         return [
-            'sslcommerz-payment',
+            'sslcommerz',
             SslcommerzPaymentInterface::class,
             SslcommerzIpnService::class,
         ];

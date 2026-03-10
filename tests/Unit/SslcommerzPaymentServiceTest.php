@@ -34,7 +34,7 @@ class SslcommerzPaymentServiceTest extends TestCase
 
     public function test_service_is_bound_in_container(): void
     {
-        $service = $this->app->make('sslcommerz-payment');
+        $service = $this->app->make('sslcommerz');
         $this->assertInstanceOf(SslcommerzPaymentService::class, $service);
     }
 
@@ -64,14 +64,14 @@ class SslcommerzPaymentServiceTest extends TestCase
 
     public function test_payment_data_to_array_includes_all_required_fields(): void
     {
-        $dto               = new PaymentData();
-        $dto->tran_id      = 'TRX-001';
+        $dto = new PaymentData();
+        $dto->tran_id = 'TRX-001';
         $dto->total_amount = 150.0;
         $dto->product_name = 'Test Product';
-        $dto->cus_name     = 'John Doe';
-        $dto->cus_email    = 'john@example.com';
-        $dto->cus_phone    = '01711111111';
-        $dto->currency     = 'BDT';
+        $dto->cus_name = 'John Doe';
+        $dto->cus_email = 'john@example.com';
+        $dto->cus_phone = '01711111111';
+        $dto->currency = 'BDT';
 
         $arr = $dto->toArray();
 
@@ -84,13 +84,13 @@ class SslcommerzPaymentServiceTest extends TestCase
 
     public function test_payment_data_amount_is_formatted_to_two_decimals(): void
     {
-        $dto               = new PaymentData();
-        $dto->tran_id      = 'TRX-X';
+        $dto = new PaymentData();
+        $dto->tran_id = 'TRX-X';
         $dto->total_amount = 99.9;
         $dto->product_name = 'Item';
-        $dto->cus_name     = 'Test';
-        $dto->cus_email    = 'test@test.com';
-        $dto->cus_phone    = '0';
+        $dto->cus_name = 'Test';
+        $dto->cus_email = 'test@test.com';
+        $dto->cus_phone = '0';
 
         $arr = $dto->toArray();
         $this->assertEquals('99.90', $arr['total_amount']);
@@ -132,14 +132,14 @@ class SslcommerzPaymentServiceTest extends TestCase
     {
         $storePassword = 'qwerty';
         $postData = [
-            'tran_id'   => 'TRX-123',
-            'amount'    => '100.00',
-            'currency'  => 'BDT',
-            'verify_key'=> 'tran_id,amount,currency',
+            'tran_id' => 'TRX-123',
+            'amount' => '100.00',
+            'currency' => 'BDT',
+            'verify_key' => 'tran_id,amount,currency',
         ];
 
         // Build the expected hash the same way the service does
-        $parts   = ['tran_id=TRX-123', 'amount=100.00', 'currency=BDT', 'store_passwd=' . md5($storePassword)];
+        $parts = ['tran_id=TRX-123', 'amount=100.00', 'currency=BDT', 'store_passwd=' . md5($storePassword)];
         $postData['verify_sign'] = md5(implode('&', $parts));
 
         $service = $this->app->make(SslcommerzPaymentService::class);
@@ -150,9 +150,9 @@ class SslcommerzPaymentServiceTest extends TestCase
     {
         $storePassword = 'qwerty';
         $postData = [
-            'tran_id'    => 'TRX-123',
-            'amount'     => '100.00',
-            'currency'   => 'BDT',
+            'tran_id' => 'TRX-123',
+            'amount' => '100.00',
+            'currency' => 'BDT',
             'verify_key' => 'tran_id,amount,currency',
         ];
 
@@ -176,16 +176,16 @@ class SslcommerzPaymentServiceTest extends TestCase
         $this->app['config']->set('sslcommerz.store_id', '');
 
         $service = new SslcommerzPaymentService();
-        $dto     = new PaymentData();
-        $dto->tran_id      = 'T1';
+        $dto = new PaymentData();
+        $dto->tran_id = 'T1';
         $dto->total_amount = 10;
         $dto->product_name = 'P';
-        $dto->cus_name     = 'N';
-        $dto->cus_email    = 'e@e.com';
-        $dto->cus_phone    = '0';
-        $dto->success_url  = 'http://a.b/s';
-        $dto->fail_url     = 'http://a.b/f';
-        $dto->cancel_url   = 'http://a.b/c';
+        $dto->cus_name = 'N';
+        $dto->cus_email = 'e@e.com';
+        $dto->cus_phone = '0';
+        $dto->success_url = 'http://a.b/s';
+        $dto->fail_url = 'http://a.b/f';
+        $dto->cancel_url = 'http://a.b/c';
 
         $service->initiatePayment($dto);
     }

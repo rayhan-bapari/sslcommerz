@@ -22,6 +22,6 @@ class Sslcommerz extends Facade
 {
     protected static function getFacadeAccessor(): string
     {
-        return 'sslcommerz-payment';
+        return 'sslcommerz';
     }
 }
